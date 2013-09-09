@@ -1,0 +1,27 @@
+<% provide(:title, @user.name) %>
+<p id="notice"><%= notice %></p>
+
+<p>
+<div class="span8">
+  <% if @user.products.any? %>
+      <h3>Products (<%= @user.products.count %>)</h3>
+      <ol class="products">
+        <%= render @products %>
+        </ol>
+      <%= will_paginate @products %>
+      <% end %>
+</div>
+
+  <strong>name:</strong>
+  <%= @user.name %>
+</p>
+
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
