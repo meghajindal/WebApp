@@ -1,0 +1,48 @@
+<h1> Posting</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Product &nbsp</th>
+    <th>Contact No &nbsp</th>
+    <th>User &nbsp</th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <% @products.each do |product| %>
+      <tr>
+        <td><%= product.prod_name %> &nbsp &nbsp &nbsp &nbsp </td>
+
+        <td><%= product.cat_id %> &nbsp &nbsp &nbsp &nbsp  </td>
+
+        <td><%= product.user_id %> &nbsp &nbsp &nbsp &nbsp </td>
+        <%Area.where(:product_id => product.id).each do |area| %>
+            <td><%= area.city %> &nbsp</td>
+            <td><%= area.street %> &nbsp</td>
+        <%end %>
+
+
+        <td><%= link_to 'edit', edit_product_path(product.id) %>   </td>
+
+
+
+        <td><%= link_to "Delete Post",product, method: :delete,
+                    data: { confirm: "You sure?" } %> </td>
+
+
+
+
+
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>

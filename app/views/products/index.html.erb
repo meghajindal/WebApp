@@ -1,32 +1,35 @@
 <h1>Listing products</h1>
+<% @areas.select(:city).distinct.select(:street).distinct.each do |area| %>
 
+
+    <%end%>
 <table>
   <thead>
     <tr>
-      <th>prod name</th>
+      <th>Product &nbsp &nbsp &nbsp &nbsp</th>
+      <th>Contact Id &nbsp &nbsp &nbsp &nbsp</th>
+      <th>User &nbsp &nbsp &nbsp &nbsp</th>
 
-      <th>Cat</th>
+      <th>City &nbsp &nbsp &nbsp &nbsp</th>
+      <th>Street &nbsp &nbsp &nbsp &nbsp</th>
 
-      <th>User</th>
-
-      <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @products.each do |product| %>
       <tr>
-        <td><%= product.prod_name %></td>
+        <td><%= product.prod_name %> &nbsp &nbsp &nbsp &nbsp </td>
 
-        <td><%= product.cat_id %></td>
+        <td><%= product.cat_id %> &nbsp &nbsp &nbsp &nbsp  </td>
 
-        <td><%= product.user_id %></td>
-        <
-        <td><%= link_to 'Show', product %></td>
-        <td><%= link_to 'Edit', edit_product_path(product) %></td>
-        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= product.user_id %> &nbsp &nbsp &nbsp &nbsp </td>
+        <td> <%Area.where(:product_id => product.id).each do |area| %>
+            <%= area.city %> &nbsp
+            <%= area.street %> &nbsp
+            <%end %>           </td>
+        <td><%= link_to 'Show',product %></td>
+
       </tr>
     <% end %>
   </tbody>
@@ -34,4 +37,4 @@
 
 <br>
 
-<%= link_to 'New Product', new_product_path %>
+

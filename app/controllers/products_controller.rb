@@ -6,6 +6,10 @@ class ProductsController < ApplicationController
   def index
     @products = Product.all
     @areas= Area.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @products }
+    end
   end
 
   def post1
@@ -21,32 +25,40 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+
   end
 
   # GET /products/1/edit
   def edit
-    @products = Product.where("user_id= ?",current_user.id)
-    @product = @products.find(params[:id])
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-        format.json { head :no_content }
+   # @products = Product.where("user_id= ?",current_user.id)
+   # @product = @products.find(params[:id])
+   # respond_to do |format|
+      if @product.update_attributes(product_params)
+
+       # redirect_to posting_path
+       # format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+       # format.json { head :no_content }
+      #  format.xml  { render :xml => @product }
       else
-       # format.html { render action: 'edit' }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+      #  format.html { render action: 'edit' }
+       # format.json { render json: @product.errors, status: :unprocessable_entity }
+      #  format.xml  { render :xml => @product }
+
+     # end
       end
-    end
   end
+
+
 
   # POST /products
   # POST /products.json
   def create
-    # @product = current_user.products.build(product_params)
-       @product = Product.new(product_params)
+     @product = current_user.products.build(product_params)
+     #  @product = Product.new(product_params)
 
       if @product.save
         flash[:success] = "Product created!"
-        redirect_to root_url
+        redirect_to posting_path
       else
         render 'static_pages/home'
       end
@@ -57,9 +69,9 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1.json
   def update
     respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-        format.json { head :no_content }
+      if @product.update_attributes(product_params)
+        format.html { redirect_to posting_path, notice: 'Product was successfully updated.' }
+         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
         format.json { render json: @product.errors, status: :unprocessable_entity }
@@ -70,12 +82,20 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   # DELETE /products/1.json
   def destroy
-    @product.destroy
-    respond_to do |format|
-      format.html { redirect_to products_url }
-      format.json { head :no_content }
-    end
-  end
+    @product = Product.find(params[:id])
+   # respond_to do |format|
+     if @product.destroy
+      #  format.html { redirect_to :back }
+       # format.json { :success => true }.as_json
+       redirect_to :back
+      else
+       flash[:notice] = "Post failed to delete."
+     #   format.html { redirect_to :back }
+       # format.json { :success => false }.as_json
+
+      end
+      end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

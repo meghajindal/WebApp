@@ -1,16 +1,34 @@
 WebApp::Application.routes.draw do
 
+  resources :transactions
 
-  resources :users
+  resources :areas
+
   resources :sessions, only: [:new, :create, :destroy]
-  resources :products,  only:  [:create, :destroy]
+  resources :users
+
+  resources :products
+  resources :areas, only: [:create, :destroy]
+
   root  'static_pages#home'
+  get 'static_pages/home' =>  'static_pages#home'
   get 'static_pages/about' =>  'static_pages#about'
   get 'static_pages/contact' =>  'static_pages#contact'
   get 'static_pages/follow' =>  'static_pages#follow'
+  get '/posting' => 'products#post1'
+  match '/product/show' => 'products#show', via:'get'
+  match '/renting', to: 'products#index',    via: 'get'
+   get '/products/:id/edit', to: 'products#edit'
+  match '/deleteProduct', to: 'products#destory', via: 'delete'
+
+  # match '/showproduct/:id', to: 'products#edit' , via: 'get'
+
+  # match '/product/create' => 'products#create'
   match '/signup',  to: 'users#new',            via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
+  post '/users/:id', :to => 'users#show', :as => :userpage
+  match '/productspost', :to => 'products#post1', via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -9,6 +9,7 @@ class StaticPagesController < ApplicationController
 
   end
   def home
+    @product = current_user.products.build if signed_in?
 
   end
 end
